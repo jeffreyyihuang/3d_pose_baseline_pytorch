@@ -1,4 +1,3 @@
-
 import numpy as np
 
 
@@ -9,8 +8,8 @@ def get_transformation(X, Y, compute_optimal_scale=False):
     X0 = X - muX
     Y0 = Y - muY
 
-    ssX = (X0 ** 2.).sum()
-    ssY = (Y0 ** 2.).sum()
+    ssX = (X0 ** 2.0).sum()
+    ssY = (Y0 ** 2.0).sum()
 
     # centred Frobenius norm
     normX = np.sqrt(ssX)

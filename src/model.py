@@ -42,10 +42,7 @@ class Linear(nn.Module):
 
 
 class LinearModel(nn.Module):
-    def __init__(self,
-                 linear_size=1024,
-                 num_stage=2,
-                 p_dropout=0.5):
+    def __init__(self, linear_size=1024, num_stage=2, p_dropout=0.5):
         super(LinearModel, self).__init__()
 
         self.linear_size = linear_size
@@ -53,7 +50,7 @@ class LinearModel(nn.Module):
         self.num_stage = num_stage
 
         # 2d joints
-        self.input_size =  16 * 2
+        self.input_size = 16 * 2
         # 3d joints
         self.output_size = 16 * 3
 

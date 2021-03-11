@@ -31,38 +31,42 @@ class Human36M(Dataset):
 
         # loading data
         if self.use_hg:
-            train_2d_file = 'train_2d_ft.pth.tar'
-            test_2d_file = 'test_2d_ft.pth.tar'
+            train_2d_file = "train_2d_ft.pth.tar"
+            test_2d_file = "test_2d_ft.pth.tar"
         else:
-            train_2d_file = 'train_2d.pth.tar'
-            test_2d_file = 'test_2d.pth.tar'
+            train_2d_file = "train_2d.pth.tar"
+            test_2d_file = "test_2d.pth.tar"
 
         if self.is_train:
             # load train data
-            self.train_3d = torch.load(os.path.join(data_path, 'train_3d.pth.tar'))
+            self.train_3d = torch.load(os.path.join(data_path, "train_3d.pth.tar"))
             self.train_2d = torch.load(os.path.join(data_path, train_2d_file))
             for k2d in self.train_2d.keys():
                 (sub, act, fname) = k2d
                 k3d = k2d
-                k3d = (sub, act, fname[:-3]) if fname.endswith('-sh') else k3d
+                k3d = (sub, act, fname[:-3]) if fname.endswith("-sh") else k3d
                 num_f, _ = self.train_2d[k2d].shape
-                assert self.train_3d[k3d].shape[0] == self.train_2d[k2d].shape[0], '(training) 3d & 2d shape not matched'
+                assert (
+                    self.train_3d[k3d].shape[0] == self.train_2d[k2d].shape[0]
+                ), "(training) 3d & 2d shape not matched"
                 for i in range(num_f):
                     self.train_inp.append(self.train_2d[k2d][i])
                     self.train_out.append(self.train_3d[k3d][i])
 
         else:
             # load test data
-            self.test_3d = torch.load(os.path.join(data_path, 'test_3d.pth.tar'))
+            self.test_3d = torch.load(os.path.join(data_path, "test_3d.pth.tar"))
             self.test_2d = torch.load(os.path.join(data_path, test_2d_file))
             for k2d in self.test_2d.keys():
                 (sub, act, fname) = k2d
                 if act not in self.actions:
                     continue
                 k3d = k2d
-                k3d = (sub, act, fname[:-3]) if fname.endswith('-sh') else k3d
+                k3d = (sub, act, fname[:-3]) if fname.endswith("-sh") else k3d
                 num_f, _ = self.test_2d[k2d].shape
-                assert self.test_2d[k2d].shape[0] == self.test_3d[k3d].shape[0], '(test) 3d & 2d shape not matched'
+                assert (
+                    self.test_2d[k2d].shape[0] == self.test_3d[k3d].shape[0]
+                ), "(test) 3d & 2d shape not matched"
                 for i in range(num_f):
                     self.test_inp.append(self.test_2d[k2d][i])
                     self.test_out.append(self.test_3d[k3d][i])

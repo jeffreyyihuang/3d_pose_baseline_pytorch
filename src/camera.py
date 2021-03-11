@@ -31,7 +31,9 @@ def project_point_radial(P, R, T, f, c, k, p):
     XX = X[:2, :] / X[2, :]  # 2x16
     r2 = XX[0, :] ** 2 + XX[1, :] ** 2  # 16,
 
-    radial = 1 + np.einsum('ij,ij->j', np.tile(k, (1, N)), np.array([r2, r2 ** 2, r2 ** 3]))  # 16,
+    radial = 1 + np.einsum(
+        "ij,ij->j", np.tile(k, (1, N)), np.array([r2, r2 ** 2, r2 ** 3])
+    )  # 16,
     tan = p[0] * XX[1, :] + p[1] * XX[0, :]  # 16,
 
     tm = np.outer(np.array([p[1], p[0]]).reshape(-1), r2)  # 2x16
@@ -41,7 +43,9 @@ def project_point_radial(P, R, T, f, c, k, p):
     Proj = (f * XXX) + c  # 2x16
     Proj = Proj.T
 
-    D = X[2, ]
+    D = X[
+        2,
+    ]
 
     return Proj, D, radial, tan, r2
 
@@ -65,13 +69,13 @@ def world_to_camera_frame(P, R, T):
 def camera_to_world_frame(P, R, T):
     """Inverse of world_to_camera_frame
 
-  Args
-    P: Nx3 points in camera coordinates
-    R: 3x3 Camera rotation matrix
-    T: 3x1 Camera translation parameters
-  Returns
-    X_cam: Nx3 points in world coordinates
-  """
+    Args
+      P: Nx3 points in camera coordinates
+      R: 3x3 Camera rotation matrix
+      T: 3x1 Camera translation parameters
+    Returns
+      X_cam: Nx3 points in world coordinates
+    """
 
     assert len(P.shape) == 2
     assert P.shape[1] == 3
@@ -91,22 +95,22 @@ def load_camera_params(hf, path):
         T: 3x1 cam translation param
         f:
     """
-    R = hf[path.format('R')][:]
+    R = hf[path.format("R")][:]
     R = R.T
 
-    T = hf[path.format('T')][:]
-    f = hf[path.format('f')][:]
-    c = hf[path.format('c')][:]
-    k = hf[path.format('k')][:]
-    p = hf[path.format('p')][:]
+    T = hf[path.format("T")][:]
+    f = hf[path.format("f")][:]
+    c = hf[path.format("c")][:]
+    k = hf[path.format("k")][:]
+    p = hf[path.format("p")][:]
 
-    name = hf[path.format('Name')][:]
+    name = hf[path.format("Name")][:]
     name = "".join([chr(item) for item in name])
 
     return R, T, f, c, k, p, name
 
 
-def load_cameras(bpath='cameras.h5', subjects=None):
+def load_cameras(bpath="cameras.h5", subjects=None):
     """
     :param bpath: *.h5
     :param subjects:
@@ -117,10 +121,10 @@ def load_cameras(bpath='cameras.h5', subjects=None):
         subjects = [1, 5, 6, 7, 8, 9, 11]
     rcams = {}
 
-    with h5py.File(bpath, 'r') as hf:
+    with h5py.File(bpath, "r") as hf:
         for s in subjects:
             for c in range(4):  # There are 4 cameras in human3.6m
-                a = load_camera_params(hf, 'subject%d/camera%d/{0}' % (s, c + 1))
+                a = load_camera_params(hf, "subject%d/camera%d/{0}" % (s, c + 1))
                 rcams[(s, c + 1)] = a
 
     return rcams

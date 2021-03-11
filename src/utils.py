@@ -17,7 +17,7 @@ class AverageMeter(object):
 
 
 def lr_decay(optimizer, step, lr, decay_step, gamma):
-    lr = lr * gamma ** (step/decay_step)
+    lr = lr * gamma ** (step / decay_step)
     for param_group in optimizer.param_groups:
-        param_group['lr'] = lr
+        param_group["lr"] = lr
     return lr

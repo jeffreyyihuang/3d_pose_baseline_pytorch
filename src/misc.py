@@ -7,21 +7,23 @@ def define_actions(action):
     :param action: specified action
     :return: a list of action(s)
     """
-    actions = ["Directions",
-               "Discussion",
-               "Eating",
-               "Greeting",
-               "Phoning",
-               "Photo",
-               "Posing",
-               "Purchases",
-               "Sitting",
-               "SittingDown",
-               "Smoking",
-               "Waiting",
-               "WalkDog",
-               "Walking",
-               "WalkTogether"]
+    actions = [
+        "Directions",
+        "Discussion",
+        "Eating",
+        "Greeting",
+        "Phoning",
+        "Photo",
+        "Posing",
+        "Purchases",
+        "Sitting",
+        "SittingDown",
+        "Smoking",
+        "Waiting",
+        "WalkDog",
+        "Walking",
+        "WalkTogether",
+    ]
 
     if action == "All" or action == "all":
         return actions
